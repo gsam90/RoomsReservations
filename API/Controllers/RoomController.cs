@@ -51,7 +51,24 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Room>> Delete(Guid id)
         {
-            await _unitOfWork.Room.Delete(id);
+            var room = await _unitOfWork.Room.GetByIdAsync(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            // Soft delete the room if it's IDeletable (supports soft delete)
+            if (room is IDeletable deletableRoom)
+            {
+                deletableRoom.IsDeleted = true;
+                await _unitOfWork.Room.Update(room);
+            }
+            else
+            {
+                // Perform a hard delete if the room doesn't support soft delete
+                await _unitOfWork.Room.Delete(id);
+            }
+
             return Ok();
         }
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RoomsReservations.Migrations
 {
     /// <inheritdoc />
-    public partial class seed : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace RoomsReservations.Migrations
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sex = table.Column<int>(type: "int", nullable: true)
+                    Sex = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,7 +38,8 @@ namespace RoomsReservations.Migrations
                     RoomCapacity = table.Column<int>(type: "int", nullable: false),
                     RoomPrice = table.Column<int>(type: "int", nullable: false),
                     RoomType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,13 +51,14 @@ namespace RoomsReservations.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GuestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    GuestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CheckOutDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReservationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     WayOfPayment = table.Column<int>(type: "int", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false)
+                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,23 +67,14 @@ namespace RoomsReservations.Migrations
                         name: "FK_Reservations_Guests_GuestId",
                         column: x => x.GuestId,
                         principalTable: "Guests",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Reservations_Rooms_RoomId",
-                        column: x => x.RoomId,
-                        principalTable: "Rooms",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_GuestId",
                 table: "Reservations",
                 column: "GuestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_RoomId",
-                table: "Reservations",
-                column: "RoomId");
         }
 
         /// <inheritdoc />
@@ -90,10 +84,10 @@ namespace RoomsReservations.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "Guests");
+                name: "Rooms");
 
             migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Guests");
         }
     }
 }

@@ -1,11 +1,7 @@
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Identity.Client;
 using RoomsReservations._1._Domain.Data;
 using RoomsReservations._1._Domain.Interfaces;
-using RoomsReservations.Migrations;
 
 namespace API
 {
@@ -31,6 +27,7 @@ namespace API
                     });
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();

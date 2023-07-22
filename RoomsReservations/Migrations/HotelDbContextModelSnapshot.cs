@@ -70,7 +70,7 @@ namespace RoomsReservations.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("GuestId")
+                    b.Property<Guid>("GuestId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -83,7 +83,7 @@ namespace RoomsReservations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RoomId")
+                    b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WayOfPayment")
@@ -92,8 +92,6 @@ namespace RoomsReservations.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GuestId");
-
-                    b.HasIndex("RoomId");
 
                     b.ToTable("Reservations");
                 });
@@ -131,17 +129,11 @@ namespace RoomsReservations.Migrations
 
             modelBuilder.Entity("RoomsReservations._1._Domain.Models.Reservation", b =>
                 {
-                    b.HasOne("RoomsReservations._1._Domain.Models.Guest", "Guest")
+                    b.HasOne("RoomsReservations._1._Domain.Models.Guest", null)
                         .WithMany("Reservations")
-                        .HasForeignKey("GuestId");
-
-                    b.HasOne("RoomsReservations._1._Domain.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
-
-                    b.Navigation("Guest");
-
-                    b.Navigation("Room");
+                        .HasForeignKey("GuestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoomsReservations._1._Domain.Models.Guest", b =>
