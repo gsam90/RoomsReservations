@@ -45,7 +45,7 @@ namespace Application.Services.Implementations
                     return null;
                 }
 
-                _unitOfWork.Reservation.Delete(reservationToBeDeleted);
+                _unitOfWork.Reservation.Delete(id);
                 await _unitOfWork.Save();
 
                 return reservationToBeDeleted;

@@ -1,5 +1,11 @@
+using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Client;
 using RoomsReservations._1._Domain.Data;
+using RoomsReservations._1._Domain.Interfaces;
+using RoomsReservations.Migrations;
 
 namespace API
 {
@@ -24,11 +30,23 @@ namespace API
                             .AllowAnyMethod();
                     });
             });
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
 
             var app = builder.Build();
+
+            //Seed the database
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<HotelDbContext>();
+                DataSeeder.SeedData(context);
+            }
+
+            
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -44,8 +62,11 @@ namespace API
             app.UseAuthorization();
 
             app.MapControllers();
+      
 
             app.Run();
         }
+
+        
     }
 }

@@ -39,6 +39,9 @@ namespace RoomsReservations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -67,8 +70,11 @@ namespace RoomsReservations.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("GuestId")
+                    b.Property<Guid?>("GuestId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
@@ -77,7 +83,7 @@ namespace RoomsReservations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoomId")
+                    b.Property<Guid?>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("WayOfPayment")
@@ -97,6 +103,9 @@ namespace RoomsReservations.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RoomCapacity")
                         .HasColumnType("int");
@@ -124,15 +133,11 @@ namespace RoomsReservations.Migrations
                 {
                     b.HasOne("RoomsReservations._1._Domain.Models.Guest", "Guest")
                         .WithMany("Reservations")
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GuestId");
 
                     b.HasOne("RoomsReservations._1._Domain.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
                     b.Navigation("Guest");
 

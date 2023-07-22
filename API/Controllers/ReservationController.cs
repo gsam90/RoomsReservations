@@ -56,9 +56,15 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Reservation>> Delete(Reservation reservation)
+        public async Task<ActionResult<Reservation>> Delete(Guid id)
         {
-            await _unitOfWork.Reservation.Delete(reservation);
+            var reservation = await _unitOfWork.Reservation.GetByIdAsync(id);
+            if (reservation == null)
+            {
+                return NotFound(); // If the reservation with the given id doesn't exist
+            }
+
+            await _unitOfWork.Reservation.Delete(id);
             return Ok();
         }
 

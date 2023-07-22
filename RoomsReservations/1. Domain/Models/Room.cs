@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RoomsReservations._1._Domain.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RoomsReservations._1._Domain.Models;
 
-public class Room
+public class Room : IDeletable
 {
     
     public Guid Id { get; set; }
@@ -21,5 +22,7 @@ public class Room
 
     [Required]
     public RoomStatus Status { get; set; }
+
+    public bool IsDeleted { get; set; }
 
 }

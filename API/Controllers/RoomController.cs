@@ -49,9 +49,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Room>> Delete(Room room)
+        public async Task<ActionResult<Room>> Delete(Guid id)
         {
-            await _unitOfWork.Room.Delete(room);
+            await _unitOfWork.Room.Delete(id);
             return Ok();
         }
 

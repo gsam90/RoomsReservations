@@ -44,7 +44,7 @@ namespace Application.Services.Implementations
                     return null;
                 }
 
-                _unitOfWork.Room.Delete(roomToBeDeleted);
+                await _unitOfWork.Room.Delete(id);
                 await _unitOfWork.Save();
 
                 return roomToBeDeleted;
