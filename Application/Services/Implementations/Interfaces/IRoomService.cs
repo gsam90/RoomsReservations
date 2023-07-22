@@ -1,4 +1,5 @@
-﻿using RoomsReservations._1._Domain.Models;
+﻿using Application.DTOs;
+using RoomsReservations._1._Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Application.Services.Implementations.Interfaces
         Task<Room> CreateAsync(Room room);
         Task<Room> UpdateAsync(Room room, Guid id);
         Task<Room> DeleteAsync(Guid id);
-        Task<List<Room>> GetAllAsync(
+        Task<List<RoomDTO>> GetAllAsync(
             Expression<Func<Room, bool>> filter);
 
         Task<Room> GetByIdAsync(Guid id);

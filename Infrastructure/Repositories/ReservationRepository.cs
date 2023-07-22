@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
             {
                 return await _hotelDbContext.Reservations
                     .Where(filter)
-                    .Include(x => x.Room)
+                    .Include(x => x.ReservationName)
                     .ToListAsync();
             }
             catch (Exception ex) 

@@ -43,11 +43,11 @@ namespace RoomsReservations._1._Domain.Data
             var reservations = Enumerable.Range(1, 10).Select(i => new Reservation
             {
                 Id = Guid.NewGuid(),
-                Guest = guests[i - 1], // Associate each reservation with a guest
+                GuestId = guests[i - 1].Id, // Associate each reservation with a guest
                 CheckInDate = DateTime.Now.AddDays(i),
                 CheckOutDate = DateTime.Now.AddDays(i + 5),
                 ReservationName = $"Reservation{i}",
-                Room = rooms[i - 1], // Associate each reservation with a room
+                RoomId = rooms[i - 1].Id, // Associate each reservation with a room
                 WayOfPayment = Payment.CreditCard,
                 PaymentStatus = PaymentStatus.Completed
             }).ToList();

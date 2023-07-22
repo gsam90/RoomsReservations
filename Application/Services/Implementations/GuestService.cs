@@ -1,4 +1,6 @@
-﻿using Application.Services.Implementations.Interfaces;
+﻿using Application.DTOs;
+using Application.Services.Implementations.Interfaces;
+using AutoMapper;
 using RoomsReservations._1._Domain.Interfaces;
 using RoomsReservations._1._Domain.Models;
 using System;
@@ -13,10 +15,12 @@ namespace Application.Services.Implementations
     public class GuestService : IGuestService
     {
         private IUnitOfWork _unitOfWork;
+        private IMapper _mapper;
 
-        public GuestService(IUnitOfWork unitOfWork)
+        public GuestService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<Guest> CreateAsync(Guest guest)
@@ -55,16 +59,17 @@ namespace Application.Services.Implementations
             }
         }
 
-        public async Task<List<Guest>> GetAllAsync(Expression<Func<Guest, bool>> filter)
+        public async Task<List<GuestDTO>> GetAllAsync(Expression<Func<Guest, bool>> filter)
         {
             try
             {
-                var result = await _unitOfWork.Guest.GetAllAsync(filter);
-                if (result == null)
+                var guests = await _unitOfWork.Guest.GetAllAsync(filter);
+                var guestDTOs = _mapper.Map<List<GuestDTO>>(guests);
+                if (guestDTOs == null || guestDTOs.Count == 0)
                 {
-                    throw new Exception("No active guest found!");
+                    throw new Exception("No active guests found!");
                 }
-                return result;
+                return guestDTOs;
             }
             catch (Exception ex)
             {
