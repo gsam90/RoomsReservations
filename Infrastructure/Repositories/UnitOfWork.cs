@@ -49,9 +49,17 @@ namespace Infrastructure.Repositories
             return await result;
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _hotelDbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

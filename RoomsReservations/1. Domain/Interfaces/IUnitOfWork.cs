@@ -11,7 +11,7 @@ namespace RoomsReservations._1._Domain.Interfaces
 
         public Task<TEntity> GetByIdWithDetails<TEntity>(Expression<Func<TEntity, bool>> filter, params
             Expression<Func<TEntity, object>>[] includePorperties) where TEntity : class;
-        public Task<bool> Save();
 
+        public Task<bool> Save();
     }
 }

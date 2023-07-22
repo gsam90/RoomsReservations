@@ -19,6 +19,6 @@ namespace RoomsReservations._1._Domain.Interfaces
         Task<TEntity> GetByIdAsync(Guid Id);
         Task<TEntity> InsertAsync(TEntity entity);
         Task<TEntity> Update(TEntity entity);
-        Task<bool>? Delete(TEntity entity);
+        Task<bool>? Delete(Guid Id);
     }
 }
