@@ -1,7 +1,13 @@
+using Application.DTOs;
+using Application.Mapping;
+using AutoMapper;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using RoomsReservations._1._Domain.Data;
 using RoomsReservations._1._Domain.Interfaces;
+using RoomsReservations._1._Domain.Models;
 
 namespace API
 {
@@ -9,6 +15,7 @@ namespace API
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<HotelDbContext>(options =>
@@ -27,10 +34,12 @@ namespace API
                     });
             });
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
+            
+            
+            
 
             var app = builder.Build();
 
@@ -63,7 +72,19 @@ namespace API
 
             app.Run();
         }
+        public void ConfigureServices(IServiceCollection services)
+        {
 
-        
+            // Add AutoMapper with the MappingProfile
+            var mapperConfig = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            // Other configurations
+        }
+
     }
 }

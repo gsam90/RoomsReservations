@@ -48,7 +48,7 @@ namespace Application.Services.Implementations
                    return null;
                 }
 
-                _unitOfWork.Guest.Delete(id);
+                await _unitOfWork.Guest.Delete(id);
                 await _unitOfWork.Save();
 
                 return guestToBeDeleted;
